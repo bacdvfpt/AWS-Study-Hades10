@@ -41,3 +41,26 @@ Ví dụ: **Glacier** và **RDS**
 -> Phải dùng multi-part uploads nếu như object lớn hơn 5GB. Recommend: Object > 100Mb là dùng multi-part uploads.
 - S3 không có file path, thay vào đó mỗi object sẽ có 1 unique KEY.
 
+- __S3 Consistency__
+    - S3 cung cấp _read-after-write_ consistency khi PUTs new objects. Đối với object mới,có thể read object ngay sau khi hoàn tất write process.
+    - Nếu như S3 nhận được HEAD hoặc GET requests của một KEY trước khi nó tồn tại kết quả trả về tuân theo Eventual consistency. Tức là S3 sẽ cho phép đọc ngay sau khi hoàn thành _write & replicate_ object mới đó.
+    - Eventual Consistency được tuân theo đối với overwrite PUTs và DELETEs. 
+    - Việc update một KEY sẽ được thực hiện tách biết. Chỉ có một update request được xử lý trong một thời điểm dựa trên timestamp của requests.
+- __S3 Security__
+    - Resource-based(Object ACL, Bucket Policy)
+    - User-based(IAM policies)
+    - MFA trước khi Delete
+- __S3 Data Protection__
+    - Versioning \
+    Khi Delete object, thì version bị delete sẽ không thật sự bị delete mà chỉ gắn Delete Marker.
+    - Có thể sử dụng Object LifeCycle để xoá object(sau x ngày), hoặc chuyển sang Store class khác.
+    - Có thể Enable MFA cho: 
+        - Đảm bảo Object không bị xoá nhầm.
+        - Khi thay đổi versioning state của bucket.
+    - Cross-Region Replication. \ Áp dùng cho các mục đích:
+        - Security
+        - Compliance
+        - Latency
+
+
+
