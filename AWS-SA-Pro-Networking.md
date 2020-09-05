@@ -37,15 +37,18 @@ OSI Model có 7 Layer(Từ thấp đến cao)
 ### Networking - Network to VPC Connectivity
 
 #### 1. AWS Managed VPN
-Amazon VPC cung cấp một option cho phép tạo một kết nối IPsec VPN giữa remote networks và Amazon VPC thông qua internet. \
+Amazon VPC cung cấp một option cho phép tạo một kết nối IPsec VPN giữa remote networks và Amazon VPC thông qua internet. 
+
 __Use cases__
-- Kết nối AWS managed IPsec VPN đến một VPC thông qua Internet. \
+- Kết nối AWS managed IPsec VPN đến một VPC thông qua Internet.
+
 __Lợi thế__
 - Sử dụng lại processes và VPN có sẵn.
 - Sử dụng lại kết nối internet có sẵn.
 - Tiếp cận cách kết nối này khi muốn thực hiện connect từ remote networks vào VPC một cách an toàn, redundancy và failover.
 - Virtual Private Gateway supports kết nối với nhiều User gateways -> Có thể triển khai redundancy và failover ở phía remote networks (VPN Connection).
-- Hỗ trợ static routes, dynamic routes(BGP peering). \
+- Hỗ trợ static routes, dynamic routes(BGP peering). 
+
 __Hạn chế__
 - Phụ thuộc vào Internet.
 - Tự chịu trách nhiện về redundancy và failover ở phía customer endpoint nếu yêu cầu.
@@ -77,11 +80,13 @@ __Hạn chế__
 
 #### 2. AWS Direct Connect
 __Use cases__
-- Cung cấp kết nối network chuyên dụng thông qua private lines từ on-premises network đến một hoặc nhiều VPCs trong cùng một region. \
+- Cung cấp kết nối network chuyên dụng thông qua private lines từ on-premises network đến một hoặc nhiều VPCs trong cùng một region.
+
 __Lợi thế__
 - Dễ kiểm soát hiệu suất network. (Vì chỉ mình sử dụng)
 - Giảm bandwidth costs.
-- Hỗ trợ BGP peering và routing policies. \
+- Hỗ trợ BGP peering và routing policies. 
+
 __Hạn chế__
 - Thêm nhiều setting hơn.
 
@@ -106,13 +111,15 @@ Cho phép kết nối nhiều VPCs khác region hoặc khác AWS account.
 __Use cases__
 Kết hợp AWS Direct Connect dedicated network connections và Amazon VPC VPN. Cung cấp kết nối IPsec VPN bảo thông qua đường truyền riêng. \
 Sự kết hợp này giúp giảm độ trễ (low latency) của IPsec Connection và tăng bandwidth của AWS Direct Connect -> Tốt hơn internet-based VPN Connections. \ 
-Dùng khi muốn dùng encrypted tunnel thông qua Direct Connect. \
+Dùng khi muốn dùng encrypted tunnel thông qua Direct Connect. 
+
 __Lợi thế__
 - Dễ kiểm soát hiệu suất network. (Vì chỉ mình sử dụng)
 - Giảm bandwidth costs.
 - Hỗ trợ BGP peering và routing policies trên AWS DX.
 - Sử dụng lại processes và VPN có sẵn.
-- Hỗ trợ static routes, dynamic routes(BGP peering). \
+- Hỗ trợ static routes, dynamic routes(BGP peering). 
+
 __Hạn chế__ 
 - phải setting nhiều hơn, tốn tiền hơn.
 
@@ -123,11 +130,14 @@ __Hạn chế__
 #### 4. AWS VPN CloudHub
  Xây dựng dựa trên AWS managed VPN, có thể giao tiếp với các bên khác một cách bảo mật thông qua AWS VPN CloudHub. \
  AWS VPN CloudHub vận hành trên model hub-and-spoke -> có thể dùng với AWS VPC hoặc không. \
- Dùng khi có nhiều branch muốn kết nối với nhau một cách bảo mật, thuận tiện, sử dụng kết nối internet có sẵn. Link các remote offices(branches) với nhau để backup hoặc access thông nhau. \
+ Dùng khi có nhiều branch muốn kết nối với nhau một cách bảo mật, thuận tiện, sử dụng kết nối internet có sẵn. Link các remote offices(branches) với nhau để backup hoặc access thông nhau. 
+
 __Use cases__
- - Kết nối remote branch offices với nhau thông qua hub-and-spoke model (Hub là trung gian cho các spoke). \
+ - Kết nối remote branch offices với nhau thông qua hub-and-spoke model (Hub là trung gian cho các spoke). 
+
 __Lợi thế__
-- Sử dụng lại kết nối internet và AWS VPN. \
+- Sử dụng lại kết nối internet và AWS VPN. 
+
 __Hạn chế__
 - Phụ thuộc vào Internet
 - Tự chịu trách nhiệm về redundancy và failover.
@@ -138,12 +148,15 @@ __Hạn chế__
 
 #### 5. Software Site-to-Site VPN
  Full managed cả hai phía của Amazon VPC connectivity bằng cách tạo VPN connection giữa remote network và một software VPN được setting ở trong VPC.
- Dùng khi phải quản lý cả 2 đầu của VPN Connection, hoặc phải setting những thứ mà Amazon VPC’s VPN chưa support. \
+ Dùng khi phải quản lý cả 2 đầu của VPN Connection, hoặc phải setting những thứ mà Amazon VPC’s VPN chưa support. 
+
 __Use cases__
-- Software appliance-based VPN connection thông qua internet. \
+- Software appliance-based VPN connection thông qua internet. 
+
 __Lợi thế__
 - Support nhiều bên cung cấp VPN, nhiều sản phẩm VPN và giao thức hơn.
-- Fully Managed. \
+- Fully Managed. 
+
 __Hạn chế__
 - Customer chịu trách nhiệm hết tất cả mọi thứ.
 
@@ -161,12 +174,15 @@ __Hạn chế__
 #### 7. AWS Transit Gateway + VPN
 Transit Gateway -> Regional \
 IPsec VPN connection giữa remote network và Transit Gateway \
-Kết nối thông qua internet \
+Kết nối thông qua internet 
+
 __User cases__
-- Kết nối AWS managed IPsec VPN đến regional router cho nhiều VPC thông qua Internet. \
+- Kết nối AWS managed IPsec VPN đến regional router cho nhiều VPC thông qua Internet. 
+
 __Lợi thế__
 - Giống AWS Managed VPN.
-- Có thể dùng cho nhiều VPC trên một region. \
+- Có thể dùng cho nhiều VPC trên một region. 
+
 __Hạn chế__
 - Giống AWS Managed VPN.
 
@@ -179,14 +195,17 @@ __Hạn chế__
 </p>
 
 #### 8. AWS Direct Connect + AWS Transit Gateway
-Tối đa 3 regions. \
+Tối đa 3 regions. 
+
 __Use cases__
-- Cung cấp kết nối network chuyên dụng thông qua private lines từ on-premises network đến nhiều VPCs cho nhiều regions. \
+- Cung cấp kết nối network chuyên dụng thông qua private lines từ on-premises network đến nhiều VPCs cho nhiều regions. 
+
 __Lợi thế__
 - Dễ kiểm soát hiệu suất network. (Vì chỉ mình sử dụng)
 - Giảm bandwidth costs.
 - Hỗ trợ BGP peering và routing policies.
-- Tính HA và tính scalable. \
+- Tính HA và tính scalable. 
+
 __Hạn chế__
 - Thêm nhiều setting hơn.
 
@@ -195,16 +214,19 @@ __Hạn chế__
 </p>
 
 #### 9. AWS Direct Connect + AWS Transit Gateway + VPN
-Regional. \
+Regional. 
+
 __Use cases__
-- Cung cấp kết nối AWS managed IPsec thông qua private lines từ on-premises network đến một hoặc nhiều VPCs trong cùng một region. \
+- Cung cấp kết nối AWS managed IPsec thông qua private lines từ on-premises network đến một hoặc nhiều VPCs trong cùng một region. 
+
 __Lợi thế__
 - Dễ kiểm soát hiệu suất network. (Vì chỉ mình sử dụng)
 - Giảm bandwidth costs.
 - Hỗ trợ BGP peering và routing policies trên AWS DX.
 - Sử dụng lại processes và VPN có sẵn.
 - Hỗ trợ static routes, dynamic routes(BGP peering).z
-- Tinh HA và tính scalable. \
+- Tinh HA và tính scalable. 
+
 __Hạn chế__
 - Thêm nhiều setting hơn.
 
@@ -216,9 +238,11 @@ __Hạn chế__
 
 #### 1. VPC peering
 __Use cases__
-- Kêt nối 2 VPCs với nhau thông qua network được AWS cung cấp. \
+- Kêt nối 2 VPCs với nhau thông qua network được AWS cung cấp. 
+
 __Lợi thế__
-- Tận dụng được kiến trúc network của AWS rất scalable. \
+- Tận dụng được kiến trúc network của AWS rất scalable. 
+
 __Hạn chế__
 - Không support kết nối bắc cầu các VPCs.
 - Khó quản lý khi mà số lượng VPCs tham gia vào mạng lưới nhiều.
@@ -229,9 +253,11 @@ __Hạn chế__
 
 #### 2. AWS Transit Gateway
 __Use cases__
-- Kêt nối các VPCs trong cùng region với nhau thông qua router được AWS cung cấp. \
+- Kêt nối các VPCs trong cùng region với nhau thông qua router được AWS cung cấp. 
+
 __Lợi thế__
-- HA và scalable. \
+- HA và scalable. 
+
 __Hạn chế__
 - Transit Gateway peering chỉ thực hiện peering across regions chứ không phải trong nội bộ region.
 
@@ -241,10 +267,12 @@ __Hạn chế__
 
 #### 3. Software Site-to-Site VPN
 __Use cases__
-- Sử dụng Software appliance-based VPN kết nối giữa các VPCs \
+- Sử dụng Software appliance-based VPN kết nối giữa các VPCs 
+
 __Lợi thế__
 - Support nhiều VPN vendors, product, protocols.
-- Hoàn toàn được quản lý bởi user. \
+- Hoàn toàn được quản lý bởi user. 
+
 __Hạn chế__
 - User chịu trách nhiệm hết về HA cũng như khả năng scale.
 - Sử dụng VPN instance sẽ dẫn đến bottleneck.
@@ -255,11 +283,13 @@ __Hạn chế__
 
 #### 4. Software VPN-to-AWS Managed VPN
 __Use cases__
-- Software appliance to VPN connection between VPCs \
+- Software appliance to VPN connection between VPCs 
+
 __Lợi thế__
 - AWS quản lý về tính HA của kết nối VPC VPN.
 - Support nhiều VPN Vendors, product được quản lý bởi user.
-- Hỗ trợ static routes, dynamic routes(BGP peering) và routing policies. \
+- Hỗ trợ static routes, dynamic routes(BGP peering) và routing policies. 
+
 __Hạn chế__
 - User chịu trách nhiệm hết về HA cũng như khả năng scale.
 - Sử dụng VPN instance sẽ dẫn đến bottleneck.
@@ -271,10 +301,12 @@ __Hạn chế__
 
 #### 5. AWS Managed VPN
 __Use cases__
-- Định tuyến VPC-to-VPC quản lý bởi user thông qua IPsec VPN connections sử dụng các phương thức của user. \
+- Định tuyến VPC-to-VPC quản lý bởi user thông qua IPsec VPN connections sử dụng các phương thức của user. 
+
 __Lợi thế__
 - AWS quản lý về tính HA của kết nối VPC VPN.
-- Hỗ trợ static routes, dynamic routes(BGP peering) và routing policies. \
+- Hỗ trợ static routes, dynamic routes(BGP peering) và routing policies. 
+
 __Hạn chế__
 - Khi sử dụng các phương thức của user quản lý thì user tự chịu trách nhiệm về redundancy and failover của enpoint đó.
 
@@ -288,9 +320,11 @@ __Hạn chế__
 
 #### 6. AWS PrivateLink
 __Use cases__
-- Kêt nối 2 VPCs với nhau thông qua network được AWS cung cấp sử dụng interface endpoints. \
+- Kêt nối 2 VPCs với nhau thông qua network được AWS cung cấp sử dụng interface endpoints. 
+
 __Lợi thế__
-- Tận dụng được kiến trúc network của AWS rất scalable. \
+- Tận dụng được kiến trúc network của AWS rất scalable. 
+
 __Hạn chế__
 - VPC Endpoint services chỉ hoạt động trong phạm vi region mà nó được tạo(trừ khi các VPC được connect với nhau qua VPC peering).
 
@@ -302,7 +336,8 @@ __Interface Endpoint__
 - Private IP ENI.
 - Dùng DNS entries để điều hướng traffic.
 - API Gateway, CF, CW, etc.
-- Bảo mật: Security groups. \
+- Bảo mật: Security groups. 
+
 __Gateway Endpoint__
 - target của một route cụ thể.
 - Dùng prefix lists trong route table để điều hướng traffic.
@@ -379,8 +414,9 @@ __Spread__
 
 #### 1. Route 53 routing policies
 Route 53 có thể tạo Complex / nested Records. 
-- Ví dụ: combine Latency với Weighted.
-__Simple__ \
+- Ví dụ: combine Latency với Weighted. 
+
+__Simple__ 
 - Simple \
 Example: a web server that serves content for the example.com website.
 - Maps một hostname với một resource.
