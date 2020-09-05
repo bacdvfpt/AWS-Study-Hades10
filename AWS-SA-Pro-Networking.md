@@ -41,4 +41,6 @@ Amazon VPC cung cấp một option cho phép tạo một kết nối IPsec VPN g
 
 ![awsmanagedvpn](resources/images/networking/awsmanagedvpn.png?style=centerme)
 
-
+ <p align="center"> 
+    <img src="https://github.com/sadsun92/AWS-Study-Hades10/blob/master/resources/images/networking/awsmanagedvpn.png" alt="alternate text">
+ </p>
