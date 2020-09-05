@@ -378,9 +378,15 @@ __Spread__
 - Route internet traffic vào domain.
 
 #### 1. Route 53 routing policies
+Route 53 có thể tạo Complex / nested Records. 
+- Ví dụ: combine Latency với Weighted.
 __Simple__ \
 - Simple \
 Example: a web server that serves content for the example.com website.
+- Maps một hostname với một resource.
+- Không thể attach health checks.(Không thể thực hiện failover)
+- Nếu nhiều values được về từ DNS query thì client sẽ chọn một value random.
+    - Nếu Route 53 trả về nhiều IPs thì client sẽ chọn một IP random.
 
 __Failover__
 - Setting khi muốn chuyển sang phương án dự phòng khi Health check trả về unhealthy.
@@ -388,6 +394,8 @@ __Failover__
 
 __Geolocation__
 - Route traffic dựa trên location của users.
+- Dùng location IP range để route traffic.
+- Nên tạo default policy nếu như user không match với location nào.
 
 __Geoproximity__
 - Route traffic dựa trên location của resources. \
@@ -395,12 +403,30 @@ Example: Nếu user gần region Tokyo hơn region Seoul thì route về region 
 
 __Latency__
 - Có resources tồn tại trên nhiều region và muốn route traffic đến region cung cấp latency tốt nhất.
+- Có khả năng failover nếu như enable health checks.
 
 __Multivalue answer__
 - Route53 trả về multiple values ví dụ như IP addresses.
+- Liên kết với Route 53 Health checks với các records.
+- Có tối đa 8 healthy records trả về cho mỗi MultiValue query.
+- Không phải lựa chọn thay thế cho ELB.
+    - Client nhận nhiều values và chọn value để dùng, trong trường hợp value được chọn không hoạt động thì client có thể chọn value khác mà không cần phải DNS query một lần nữa.
 
 __Weighted__
 - Route traffic đến multi resources dựa trên tỉ lệ đã setting.
+- Có thể dùng để test traffic đến new app version.
+- Có thẻ dùng để split traffic giữa 2 regions.
+- Có thể dùng health checks.
+- Không cần tất cả cộng lại = 100.
+
+__Private DNS__
+- Có thể dùng Route53 cho internal private DNS.
+    - DNS hostname resolves to the private IPv4 address of the instance.
+    - VPC phải enableDnsHostNames và enableDnsSupport.
+
+__DNSSEC__
+- chống MITMA
+- Route53 supports DNSSEC cho domain đã được đăng kí, không support cho DNS service. -> Phải dùng DNS provider khác hoặc custom DNS server trên EC2.
 
 ### Networking - CloudFront
 - Distributed content delivery
@@ -415,10 +441,73 @@ __SSL and TLS__
 __Security Policy__
 
 ### Networking - ELB
-
+Có thể setup internal hoặc external ELBs
 #### 1. Application Load Balancer
+- Support HTTP, HTTPS, Websocket
+- Load Balancing đến multiple HTTP apps trên nhiều machines (target groups) - EC2
+- Load Balancing đến multiple apps trên một machine (ex: containers) - ECS
+- Support redirects (ex: từ http sang https)
+- Routing tables đến các target groups khác nhau:
+    - Dựa trên path trong URL (example.com/users)
+    - Dựa trên hostname trong URL (one.example.com & other.example.com)
+    - Dựa trên query string, headers.
+- Fit với micro services và container-based app vì nó support dynamic port mapping.
+- __Target Groups__
+    - EC2 - HTTP
+    - ECS Task - HTTP
+    - Lambda - HTTP request được chuyển thành JSON Event
+    - IP Addresses - phải là private IPs(ex: instances trong peered VPC, on-pre)
+    - ALB có thể route đên multi target groups.
+    - Health checks diễn ra ở target group level.
+- SSL Certificates
+    - Support multiple listeners
+    - Supports SNI - Server Name Indication: Giải quyết vấn đề load nhiều SSL Certs vào 1 web server(để trả về multiple websites).
+        - Có thể setup nhiểu SSL Cert ở ALB
+        - Tương ứng với hostname ở target group sẽ có 1 SSL Cert ở ALB match. 
+
 - Sticky Sessions.
 
 #### 2. Network Load Balancer
+- Support TCP, TLS(secure TCP), UDP, Websockets.
+- Xử lý hàng triệu request / second.
+- Có 1 static IP / AZ, support assigning EIP. (whitelisting IP chỉ định)
+- Less latency
+- Use cases:
+    - Cần performance cao
+    - TCP or UDP traffic
+    - dùng với AWS Private Link để expose một service một cách nội bộ(internally).
+- Target groups:
+    - EC2 - TCP
+    - ECS Tasks - TCP
+    - IP Addresses - chỉ private IP, kể cả ngoài VPC
+- Proxy Protocol:
+    - Gửi thông tin thêm của connection như source hoặc destination.
+    - proxy protocol nằm ở phần header của gói tin TCP.
+    - Khi muốn biết source IP của client.
 
 #### 3. Classic Load Balancer
+- Support HTTP, HTTPS, TCP
+- Health Checks có thể dùng HTTP hoặc TCP.
+- Supports chỉ một SSL Certificate
+
+#### 4. Cross-Zone Load Balancing
+- Traffic sends đến tất cả mọi AZ với Cross-Zone Load Balancing
+- Ngược lại, mỗi LB chỉ phân phối requests đến những instances đã đăng kí trong AZ của nó.
+- Cần Cross-Zone Load Balancing khi muốn tăng hiệu năng, và nếu không dùng Cross-Zone Load Balancing thì sẽ giảm chi phí.
+- CLB:
+    - Default: disabled
+    - Không mất thêm tiền
+- ALB:
+    - Luôn enabled(không thể disabled)
+    - Không mất thêm tiền
+- NLB:
+    - Default: disabled
+    - Mất thêm tiền nếu bật lên.
+
+#### 5. Load Balancer Stickiness
+- Có thể setting để một client sẽ luôn được redirect đến một instance sau LB.
+- chỉ hoạt động trên CLB và ALB
+- Cookie của stickiness có thời hạn(user control)
+- Use case: đảm bảo user không mất session data.
+- Bật stickiness sẽ có thể dẫn đến sự mất ổn định.
+- Nếu không dùng Stickiness thì có thể dùng ElastiCache, DynamoDB
