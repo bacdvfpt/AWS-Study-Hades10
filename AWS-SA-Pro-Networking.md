@@ -1,7 +1,7 @@
 # AWS-SA-Pro-Notes
 Ghi chú lại kiến thức đã học trong quá trình luyện thi chứng chỉ AWS Solution Architect Professional Certificate.
 
-## Tuần 1 - Data Storages
+## Tuần 1 - Networking
 
 ### Data Stores - Concepts
 
