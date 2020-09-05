@@ -38,6 +38,6 @@ OSI Model có 7 Layer(Từ thấp đến cao)
 
 #### 1. AWS Managed VPN
 Amazon VPC cung cấp một option cho phép tạo một kết nối IPsec VPN giữa remote networks và Amazon VPC thông qua internet.
-![awsmanagedvpn](resources\images\networking\awsmanagedvpn.png)
+![awsmanagedvpn](resources/images/networking/awsmanagedvpn.png)
 
 
