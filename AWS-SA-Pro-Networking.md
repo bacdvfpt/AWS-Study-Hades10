@@ -37,15 +37,15 @@ OSI Model có 7 Layer(Từ thấp đến cao)
 ### Networking - Network to VPC Connectivity
 
 #### 1. AWS Managed VPN
-Amazon VPC cung cấp một option cho phép tạo một kết nối IPsec VPN giữa remote networks và Amazon VPC thông qua internet.
+Amazon VPC cung cấp một option cho phép tạo một kết nối IPsec VPN giữa remote networks và Amazon VPC thông qua internet. \
 __Use cases__
-- Kết nối AWS managed IPsec VPN đến một VPC thông qua Internet.
+- Kết nối AWS managed IPsec VPN đến một VPC thông qua Internet. \
 __Lợi thế__
 - Sử dụng lại processes và VPN có sẵn.
 - Sử dụng lại kết nối internet có sẵn.
 - Tiếp cận cách kết nối này khi muốn thực hiện connect từ remote networks vào VPC một cách an toàn, redundancy và failover.
 - Virtual Private Gateway supports kết nối với nhiều User gateways -> Có thể triển khai redundancy và failover ở phía remote networks (VPN Connection).
-- Hỗ trợ static routes, dynamic routes(BGP peering).
+- Hỗ trợ static routes, dynamic routes(BGP peering). \
 __Hạn chế__
 - Phụ thuộc vào Internet.
 - Tự chịu trách nhiện về redundancy và failover ở phía customer endpoint nếu yêu cầu.
@@ -77,11 +77,11 @@ __Hạn chế__
 
 #### 2. AWS Direct Connect
 __Use cases__
-- Cung cấp kết nối network chuyên dụng thông qua private lines từ on-premises network đến một hoặc nhiều VPCs trong cùng một region.
+- Cung cấp kết nối network chuyên dụng thông qua private lines từ on-premises network đến một hoặc nhiều VPCs trong cùng một region. \
 __Lợi thế__
 - Dễ kiểm soát hiệu suất network. (Vì chỉ mình sử dụng)
 - Giảm bandwidth costs.
-- Hỗ trợ BGP peering và routing policies.
+- Hỗ trợ BGP peering và routing policies. \
 __Hạn chế__
 - Thêm nhiều setting hơn.
 
@@ -112,9 +112,9 @@ __Lợi thế__
 - Giảm bandwidth costs.
 - Hỗ trợ BGP peering và routing policies trên AWS DX.
 - Sử dụng lại processes và VPN có sẵn.
-- Hỗ trợ static routes, dynamic routes(BGP peering).
-__Hạn chế__
- phải setting nhiều hơn, tốn tiền hơn.
+- Hỗ trợ static routes, dynamic routes(BGP peering). \
+__Hạn chế__ 
+- phải setting nhiều hơn, tốn tiền hơn.
 
  <p align="center"> 
     <img src="https://github.com/sadsun92/AWS-Study-Hades10/blob/master/resources/images/networking/awsdirectconnectvpn.png" alt="AWS Direct Connect + VPN">
@@ -123,11 +123,11 @@ __Hạn chế__
 #### 4. AWS VPN CloudHub
  Xây dựng dựa trên AWS managed VPN, có thể giao tiếp với các bên khác một cách bảo mật thông qua AWS VPN CloudHub. \
  AWS VPN CloudHub vận hành trên model hub-and-spoke -> có thể dùng với AWS VPC hoặc không. \
- Dùng khi có nhiều branch muốn kết nối với nhau một cách bảo mật, thuận tiện, sử dụng kết nối internet có sẵn. Link các remote offices(branches) với nhau để backup hoặc access thông nhau.
+ Dùng khi có nhiều branch muốn kết nối với nhau một cách bảo mật, thuận tiện, sử dụng kết nối internet có sẵn. Link các remote offices(branches) với nhau để backup hoặc access thông nhau. \
 __Use cases__
- - Kết nối remote branch offices với nhau thông qua hub-and-spoke model (Hub là trung gian cho các spoke).
+ - Kết nối remote branch offices với nhau thông qua hub-and-spoke model (Hub là trung gian cho các spoke). \
 __Lợi thế__
-- Sử dụng lại kết nối internet và AWS VPN.
+- Sử dụng lại kết nối internet và AWS VPN. \
 __Hạn chế__
 - Phụ thuộc vào Internet
 - Tự chịu trách nhiệm về redundancy và failover.
@@ -138,12 +138,12 @@ __Hạn chế__
 
 #### 5. Software Site-to-Site VPN
  Full managed cả hai phía của Amazon VPC connectivity bằng cách tạo VPN connection giữa remote network và một software VPN được setting ở trong VPC.
- Dùng khi phải quản lý cả 2 đầu của VPN Connection, hoặc phải setting những thứ mà Amazon VPC’s VPN chưa support.
+ Dùng khi phải quản lý cả 2 đầu của VPN Connection, hoặc phải setting những thứ mà Amazon VPC’s VPN chưa support. \
 __Use cases__
-- Software appliance-based VPN connection thông qua internet.
+- Software appliance-based VPN connection thông qua internet. \
 __Lợi thế__
 - Support nhiều bên cung cấp VPN, nhiều sản phẩm VPN và giao thức hơn.
-- Fully Managed.
+- Fully Managed. \
 __Hạn chế__
 - Customer chịu trách nhiệm hết tất cả mọi thứ.
 
@@ -152,7 +152,7 @@ __Hạn chế__
  </p>
 
 #### 6. Transit VPC
- Được thay thế bởi AWS Transit Gateway
+Được thay thế bởi AWS Transit Gateway
 
 <p align="center"> 
     <img src="https://github.com/sadsun92/AWS-Study-Hades10/blob/master/resources/images/networking/Transitvpc.png" alt="Transit VPC">
@@ -161,12 +161,12 @@ __Hạn chế__
 #### 7. AWS Transit Gateway + VPN
 Transit Gateway -> Regional \
 IPsec VPN connection giữa remote network và Transit Gateway \
-Kết nối thông qua internet
+Kết nối thông qua internet \
 __User cases__
-- Kết nối AWS managed IPsec VPN đến regional router cho nhiều VPC thông qua Internet.
+- Kết nối AWS managed IPsec VPN đến regional router cho nhiều VPC thông qua Internet. \
 __Lợi thế__
 - Giống AWS Managed VPN.
-- Có thể dùng cho nhiều VPC trên một region.
+- Có thể dùng cho nhiều VPC trên một region. \
 __Hạn chế__
 - Giống AWS Managed VPN.
 
@@ -181,12 +181,12 @@ __Hạn chế__
 #### 8. AWS Direct Connect + AWS Transit Gateway
 Tối đa 3 regions. \
 __Use cases__
-- Cung cấp kết nối network chuyên dụng thông qua private lines từ on-premises network đến nhiều VPCs cho nhiều regions.
+- Cung cấp kết nối network chuyên dụng thông qua private lines từ on-premises network đến nhiều VPCs cho nhiều regions. \
 __Lợi thế__
 - Dễ kiểm soát hiệu suất network. (Vì chỉ mình sử dụng)
 - Giảm bandwidth costs.
 - Hỗ trợ BGP peering và routing policies.
-- Tính HA và tính scalable.
+- Tính HA và tính scalable. \
 __Hạn chế__
 - Thêm nhiều setting hơn.
 
@@ -197,14 +197,14 @@ __Hạn chế__
 #### 9. AWS Direct Connect + AWS Transit Gateway + VPN
 Regional. \
 __Use cases__
-- Cung cấp kết nối AWS managed IPsec thông qua private lines từ on-premises network đến một hoặc nhiều VPCs trong cùng một region.
+- Cung cấp kết nối AWS managed IPsec thông qua private lines từ on-premises network đến một hoặc nhiều VPCs trong cùng một region. \
 __Lợi thế__
 - Dễ kiểm soát hiệu suất network. (Vì chỉ mình sử dụng)
 - Giảm bandwidth costs.
 - Hỗ trợ BGP peering và routing policies trên AWS DX.
 - Sử dụng lại processes và VPN có sẵn.
 - Hỗ trợ static routes, dynamic routes(BGP peering).z
-- Tinh HA và tính scalable.
+- Tinh HA và tính scalable. \
 __Hạn chế__
 - Thêm nhiều setting hơn.
 
@@ -216,9 +216,9 @@ __Hạn chế__
 
 #### 1. VPC peering
 __Use cases__
-- Kêt nối 2 VPCs với nhau thông qua network được AWS cung cấp.
+- Kêt nối 2 VPCs với nhau thông qua network được AWS cung cấp. \
 __Lợi thế__
-- Tận dụng được kiến trúc network của AWS rất scalable.
+- Tận dụng được kiến trúc network của AWS rất scalable. \
 __Hạn chế__
 - Không support kết nối bắc cầu các VPCs.
 - Khó quản lý khi mà số lượng VPCs tham gia vào mạng lưới nhiều.
@@ -229,9 +229,9 @@ __Hạn chế__
 
 #### 2. AWS Transit Gateway
 __Use cases__
-- Kêt nối các VPCs trong cùng region với nhau thông qua router được AWS cung cấp.
+- Kêt nối các VPCs trong cùng region với nhau thông qua router được AWS cung cấp. \
 __Lợi thế__
-- HA và scalable.
+- HA và scalable. \
 __Hạn chế__
 - Transit Gateway peering chỉ thực hiện peering across regions chứ không phải trong nội bộ region.
 
@@ -241,10 +241,10 @@ __Hạn chế__
 
 #### 3. Software Site-to-Site VPN
 __Use cases__
-- Sử dụng Software appliance-based VPN kết nối giữa các VPCs
+- Sử dụng Software appliance-based VPN kết nối giữa các VPCs \
 __Lợi thế__
 - Support nhiều VPN vendors, product, protocols.
-- Hoàn toàn được quản lý bởi user.
+- Hoàn toàn được quản lý bởi user. \
 __Hạn chế__
 - User chịu trách nhiệm hết về HA cũng như khả năng scale.
 - Sử dụng VPN instance sẽ dẫn đến bottleneck.
@@ -255,11 +255,11 @@ __Hạn chế__
 
 #### 4. Software VPN-to-AWS Managed VPN
 __Use cases__
-- Software appliance to VPN connection between VPCs
+- Software appliance to VPN connection between VPCs \
 __Lợi thế__
 - AWS quản lý về tính HA của kết nối VPC VPN.
 - Support nhiều VPN Vendors, product được quản lý bởi user.
-- Hỗ trợ static routes, dynamic routes(BGP peering) và routing policies.
+- Hỗ trợ static routes, dynamic routes(BGP peering) và routing policies. \
 __Hạn chế__
 - User chịu trách nhiệm hết về HA cũng như khả năng scale.
 - Sử dụng VPN instance sẽ dẫn đến bottleneck.
@@ -271,10 +271,10 @@ __Hạn chế__
 
 #### 5. AWS Managed VPN
 __Use cases__
-- Định tuyến VPC-to-VPC quản lý bởi user thông qua IPsec VPN connections sử dụng các phương thức của user.
+- Định tuyến VPC-to-VPC quản lý bởi user thông qua IPsec VPN connections sử dụng các phương thức của user. \
 __Lợi thế__
 - AWS quản lý về tính HA của kết nối VPC VPN.
-- Hỗ trợ static routes, dynamic routes(BGP peering) và routing policies.
+- Hỗ trợ static routes, dynamic routes(BGP peering) và routing policies. \
 __Hạn chế__
 - Khi sử dụng các phương thức của user quản lý thì user tự chịu trách nhiệm về redundancy and failover của enpoint đó.
 
@@ -288,9 +288,9 @@ __Hạn chế__
 
 #### 6. AWS PrivateLink
 __Use cases__
-- Kêt nối 2 VPCs với nhau thông qua network được AWS cung cấp sử dụng interface endpoints.
+- Kêt nối 2 VPCs với nhau thông qua network được AWS cung cấp sử dụng interface endpoints. \
 __Lợi thế__
-- Tận dụng được kiến trúc network của AWS rất scalable.
+- Tận dụng được kiến trúc network của AWS rất scalable. \
 __Hạn chế__
 - VPC Endpoint services chỉ hoạt động trong phạm vi region mà nó được tạo(trừ khi các VPC được connect với nhau qua VPC peering).
 
@@ -302,8 +302,7 @@ __Interface Endpoint__
 - Private IP ENI.
 - Dùng DNS entries để điều hướng traffic.
 - API Gateway, CF, CW, etc.
-- Bảo mật: Security groups.
-
+- Bảo mật: Security groups. \
 __Gateway Endpoint__
 - target của một route cụ thể.
 - Dùng prefix lists trong route table để điều hướng traffic.
@@ -344,12 +343,13 @@ __Gateway Endpoint__
 - Không thể dùng SG.
 - Không thể dettach EIP.
 - Không thể dùng bastion server.
-[NAT instances](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_NAT_Instance.html)
+
+[NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)
 
 ### Networking - Routing
 
 #### 1. Route Tables
-- he most specific route that matches the traffic (longest prefix match).
+- the most specific route that matches the traffic (longest prefix match).
 
 #### 2. BGP - Border Gateway Protocol
 ????
@@ -373,3 +373,52 @@ __Spread__
 - Tối đa 7 instances / group / AZ. 
 
 ### Networking - Route 53
+- Đăng kí domain names.
+- Check health của domain resources.
+- Route internet traffic vào domain.
+
+#### 1. Route 53 routing policies
+__Simple__ \
+- Simple \
+Example: a web server that serves content for the example.com website.
+
+__Failover__
+- Setting khi muốn chuyển sang phương án dự phòng khi Health check trả về unhealthy.
+- Tạo 2 record sets cùng tên khác address, health check sẽ check để route đến address trả về healthy.
+
+__Geolocation__
+- Route traffic dựa trên location của users.
+
+__Geoproximity__
+- Route traffic dựa trên location của resources. \
+Example: Nếu user gần region Tokyo hơn region Seoul thì route về region Tokyo.
+
+__Latency__
+- Có resources tồn tại trên nhiều region và muốn route traffic đến region cung cấp latency tốt nhất.
+
+__Multivalue answer__
+- Route53 trả về multiple values ví dụ như IP addresses.
+
+__Weighted__
+- Route traffic đến multi resources dựa trên tỉ lệ đã setting.
+
+### Networking - CloudFront
+- Distributed content delivery
+    - static content: S3
+    - dynamic content: video streaming, dynamic website
+
+#### 1. SSL, TLS, SNI
+__SSL and TLS__
+- Có thể sử dụng default cloudfront SSL certificate khi muốn dùng http/https để access content với CloudFront domain name.
+- Nếu dùng custom domain thì phải dùng custom SSL Certificate.
+
+__Security Policy__
+
+### Networking - ELB
+
+#### 1. Application Load Balancer
+- Sticky Sessions.
+
+#### 2. Network Load Balancer
+
+#### 3. Classic Load Balancer
