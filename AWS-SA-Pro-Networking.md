@@ -1,66 +1,43 @@
 # AWS-SA-Pro-Notes
 Ghi chú lại kiến thức đã học trong quá trình luyện thi chứng chỉ AWS Solution Architect Professional Certificate.
 
-## Tuần 1 - Networking
+## Tuần 2 - Networking
 
-### Data Stores - Concepts
+### Networking - Concepts
 
-#### 1. Data Persistance (Độ bền vững của dữ liệu) 
-Dựa trên độ bền vững của dữ liệu, có 3 loại data stores dưới đây.
-- __Persistent Data Store__ (_Lưu trữ dữ liệu lâu dài_) \
-Dữ liệu _durable_ và được lưu trữ cố định, không bị ảnh hưởng khi khởi động lại hoặc tắt server. \
-Ví dụ: **Glacier** và **RDS**
-- __Transient Data Store__ (_Lưu trữ dữ liệu tạm thời_) \
- Dữ liệu chỉ được lưu trữ tạm thời, sau đó sẽ được chuyển đến một _process_ khác hoặc đến nơi lưu trữ dữ liệu lâu dài - _persistent store_. \
- Ví dụ: **SQS** và **SNS**
-- __Ephemeral Data Store__ (_Không biết dịch sao nữa ^^_) \
- Dữ liệu sẽ bị mất khi stop. \
- Ví dụ: __EC2 Instance Store__ và __Memcached__
+#### 1. OSI Model
+OSI Model có 7 Layer(Từ thấp đến cao)
+- __Physical__ (_Tầng vật lý_)  - AWS chịu trách nhiệm
+- __Data Link__ (_Tầng liên kết_) - AWS chịu trách nhiệm
+- __Network__ (_Tầng mạng_) - Customer chịu trách nhiệm
+- __Transport__ (_Tầng giao vận_) - Customer chịu trách nhiệm
+- __Session__ (_Tầng phiên_) - Customer chịu trách nhiệm
+- __Presentation__ (_Tầng trình bày/ trình diễn_) - Customer chịu trách nhiệm
+- __Application__ (_Tầng ứng dụng_) - Customer chịu trách nhiệm
 
-#### 2. IOPS vs. Throughput
-- __IOPS - Input/Output Operations per Second__ \
- Thể hiện tốc độ đọc và ghi. Phù hợp với những hệ thống yêu cầu cao về tốc độ đọc ghi. 
-- __Throughput__ \
- Thể hiện lượng dữ liệu có thể đi qua (_Through_) trong một khoảng thời gian.
+#### 2. TCP vs UDP vs ICMP
+- __TCP__ 
+    - Hướng kết nối: phải thiết lập kết nối trước khi thực hiện truyền dữ liệu.
+    - Stateful
+    - Đảm bảo chất lượng gói tin. Vì có cơ chế đánh số thứ tự gói tin và cơ chế báo nhận(đã nhận được gói tin thì báo lại bên gửi)
+    - Mất thời gian hơn UDP
+    - Ví dụ: Web, Email, File Transfer
+- __UDP__ 
+    - Hướng phi kết nối: không cần thiết lập kết nối trước khi gửi gói tin.
+    - Stateless
+    - Không quan tâm chất lượng gói tin, chỉ gửi gói tin và không quan tâm đến việc nhận gói tin có chính xác không? có đúng địa chỉ nhận không.
+    - Phù hợp với các ứng dụng yêu cầu truyền tải nhanh, liên tục và không bị ảnh hưởng khi mất một vài gói tin.
+    - ví dụ: Streaming media, DNS
+- __ICMP__ 
+    - Giao thức điều khiển truyền tin trên mạng.
+    - ICMP được dùng để thông báo các lỗi xảy ra trong quá trình truyền đi của các gói dữ liệu trên mạng. Hay dùng để thăm dò và quản lý quá trình hoạt động của mạng.
+    - ICMP không phải là giao thức truyền tải gửi dữ liệu giữa các hệ thống với nhau mà chúng được xem như bộ định tuyến (Các thiết bị network trao đổi thông tin với nhau).
+    - ví dụ: traceroute, ping
 
-#### 3. Consistency (Tính nhất quán)
-- __Consistency Models__
-    - __ACID__: Tập hợp các property của database transactions để đảm bảo dữ liệu _valid_ dù cho có gặp sự cố(gặp lỗi, mất điện, etc).
-        - __Atomicity__: Transactions là "_Tất cả hoặc không có gì_". Nghĩa là một transactions được coi là thành công nếu tất cả mọi thao tác phải thành công, nếu một thao tác không thành công thì transaction đó sẽ thất bại. 
-        - __Consistency__: Transactions phải luôn hợp lệ. Nghĩa là một transaction chỉ có thể đưa database từ trạng thái hợp lệ này sang trạng thái hợp lệ khác để đảm bảo tính bất biến của dữ liệu.
-        - __Isolation__: Đảm bảo tính cô lập của dữ liệu. Transaction này không thể lẫn lộn hay ảnh hưởng đến transactions khác. Transactions dù được thực thi đồng thờI cũng phải được đảm bảo tính cô lập, không ảnh hưởng đến cái khác. 
-        - __Durablity__: Transaction đã được hoàn thành phải đưỢc lưu trữ lâu dài, cho dù có sự cố xảy ra thì vẫn đảm bảo sau khi khôi phục hệ thống vẫn dùng được dữ liệu.
-    - __BASE__: Ngược lại với ACID.
-        - __Basically Available__: Đảm bảo tính khả dụng. Dữ liệu luôn khả dụng ngay cả khi dữ liệu đó cũ. ??
-        - __Soft State__: trạng thái của dữ liệu, cơ sở dữ liệu không nhất thiết phải nhất quán mọi lúc. Nó có thể thay đổi.
-        - __Eventual Consistency__: Dữ liệu sẽ đạt được trạng thái nhất quán ở một thời điển nào đó.
-    Giải thích __BASE__(đúng hơn là __Eventual Consistency__): Nếu như một record trong một database không có thay đổi trong một khoảng thời gian,thì trong khoảng thời gian đó nếu thực hiện _request(read data)_ tất cả các client sẽ nhận về cùng một dữ liệu của record đó. Nếu có thực hiện update record, tất cả các replica của database sẽ được thực hiện đồng bộ data, ở một thời điển nào đó client A sẽ nhận được record có nội dung trước khi update và client B sẽ nhận được record có nội dung sau khi update. Nhưng đến một thời điển nào đó, dữ liệu sẽ đạt được tính nhất quán và tất cả các client sẽ nhận được record có nội dung sau khi đã update.
+### Networking - Network to VPC Connectivity
 
-#### 4. Amazon S3
-- S3 là Object Store. Có thể lưu trữ tối đa 5GB / object, nhưng size tốt đa của object trong 1 _PUT_ là 5GB. /
--> Phải dùng multi-part uploads nếu như object lớn hơn 5GB. Recommend: Object > 100Mb là dùng multi-part uploads.
-- S3 không có file path, thay vào đó mỗi object sẽ có 1 unique KEY.
-
-- __S3 Consistency__
-    - S3 cung cấp _read-after-write_ consistency khi PUTs new objects. Đối với object mới,có thể read object ngay sau khi hoàn tất write process.
-    - Nếu như S3 nhận được HEAD hoặc GET requests của một KEY trước khi nó tồn tại kết quả trả về tuân theo Eventual consistency. Tức là S3 sẽ cho phép đọc ngay sau khi hoàn thành _write & replicate_ object mới đó.
-    - Eventual Consistency được tuân theo đối với overwrite PUTs và DELETEs. 
-    - Việc update một KEY sẽ được thực hiện tách biết. Chỉ có một update request được xử lý trong một thời điểm dựa trên timestamp của requests.
-- __S3 Security__
-    - Resource-based(Object ACL, Bucket Policy)
-    - User-based(IAM policies)
-    - MFA trước khi Delete
-- __S3 Data Protection__
-    - Versioning \
-    Khi Delete object, thì version bị delete sẽ không thật sự bị delete mà chỉ gắn Delete Marker.
-    - Có thể sử dụng Object LifeCycle để xoá object(sau x ngày), hoặc chuyển sang Store class khác.
-    - Có thể Enable MFA cho: 
-        - Đảm bảo Object không bị xoá nhầm.
-        - Khi thay đổi versioning state của bucket.
-    - Cross-Region Replication. \ Áp dùng cho các mục đích:
-        - Security
-        - Compliance
-        - Latency
-
+#### 1. AWS Managed VPN
+Amazon VPC cung cấp một option cho phép tạo một kết nối IPsec VPN giữa remote networks và Amazon VPC thông qua internet.
+![awsmanagedvpn](resources\images\networking\awsmanagedvpn.png)
 
 
